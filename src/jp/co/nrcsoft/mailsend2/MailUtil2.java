@@ -111,17 +111,17 @@ public class MailUtil2 {
             // メールセッション確立
             Session session = null;
 			if ( _authenticationMode ) {
-	            	session = Session.getDefaultInstance( props, new javax.mail.Authenticator() {
-	            			protected PasswordAuthentication getPasswordAuthentication() {
-	            				return new PasswordAuthentication( _pop3id, _pop3pwd );
-	            			}
-	            	} );
-	            	// Debugモードの指定
-	                session.setDebug( _debug );
-	                /*pop before smtp対策start */
-	                Store store = session.getStore( "pop3" );
-	                store.connect( _pop3Hst, _pop3id, _pop3pwd );
-	                /*pop before smtp対策end */
+				session = Session.getDefaultInstance( props, new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication( _pop3id, _pop3pwd );
+					}
+				} );
+				// Debugモードの指定
+				session.setDebug( _debug );
+				/*pop before smtp対策start */
+				Store store = session.getStore( "pop3" );
+				store.connect( _pop3Hst, _pop3id, _pop3pwd );
+				/*pop before smtp対策end */
 			}
 			else {
 				session = Session.getDefaultInstance( props, null );
@@ -149,7 +149,7 @@ public class MailUtil2 {
                	// 添付ファイル処理
             	String _attachedFullPathFiles = MailUtil2.getAttachedFileNamesWithFullPath( _pathfolder, _attachedFiles );
             	// 添付ファイル有無の確認
-                if  (  ( _attachedFullPathFiles != null ) && ( !_attachedFullPathFiles.equals( "" ) ) ) {
+                if ( ( _attachedFullPathFiles != null ) && ( !_attachedFullPathFiles.equals( "" ) ) ) {
                 	// 添付ファイルの有の場合
                     MimeBodyPart mbp1 = new MimeBodyPart();
                     MimeBodyPart mbps = new MimeBodyPart();
@@ -395,31 +395,31 @@ public class MailUtil2 {
 						if ( keyWord.equalsIgnoreCase( "FRM=" ) ) {
 							// メール送信元は、１ユーザー必須の為、２件目以降は存在していても、無視（スキップ）する。
 							if ( ( frmBuf.toString() == null ) || ( frmBuf.toString().equals( "" ) ) ) {
-								frmBuf.append( mailSendControllCard.substring( 4 ).trim() );
+								frmBuf.append( mailSendControllCard.substring( 4 ).toLowerCase().trim() );
 							}
 						} else if ( ( keyWord.equalsIgnoreCase( "TO= " ) || ( keyWord.equalsIgnoreCase( "TO =" ) ) ) ) {
 							if ( ( toBuf.toString() == null ) || ( toBuf.toString().equals( "" ) ) ) {
-								toBuf.append( mailSendControllCard.substring( 4 ).trim() );
+								toBuf.append( mailSendControllCard.substring( 4 ).toLowerCase().trim() );
 							}
 							else {
 								toBuf.append( "," );
-								toBuf.append( mailSendControllCard.substring( 4 ).trim() );
+								toBuf.append( mailSendControllCard.substring( 4 ).toLowerCase().trim() );
 							}
 						} else if ( ( keyWord.equalsIgnoreCase( "CC= " ) || ( keyWord.equalsIgnoreCase( "CC =" ) ) ) ) {
 							if ( ( ccBuf.toString() == null ) || ( ccBuf.toString().equals( "" ) ) ) {
-								ccBuf.append( mailSendControllCard.substring( 4 ).trim() );
+								ccBuf.append( mailSendControllCard.substring( 4 ).toLowerCase().trim() );
 							}
 							else {
 								ccBuf.append( "," );
-								ccBuf.append( mailSendControllCard.substring( 4 ).trim() );
+								ccBuf.append( mailSendControllCard.substring( 4 ).toLowerCase().trim() );
 							}
 						} else if ( keyWord.equalsIgnoreCase( "BCC=" ) ) {
 							if ( ( bccBuf.toString() == null ) || ( bccBuf.toString().equals( "" ) ) ) {
-								bccBuf.append( mailSendControllCard.substring( 4 ).trim() );
+								bccBuf.append( mailSendControllCard.substring( 4 ).toLowerCase().trim() );
 							}
 							else {
 								bccBuf.append( "," );
-								bccBuf.append( mailSendControllCard.substring( 4 ).trim() );
+								bccBuf.append( mailSendControllCard.substring( 4 ).toLowerCase().trim() );
 							}
 						} else if ( keyWord.equalsIgnoreCase( "SBJ=" ) ) {
 							// メールの件名は、１行必須の為、２行目以降は存在していても、無視（スキップ）する。
