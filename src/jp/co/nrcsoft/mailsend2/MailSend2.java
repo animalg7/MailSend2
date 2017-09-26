@@ -57,7 +57,7 @@ public class MailSend2 {
             // 「メール送信制御カード」の送信先サーバー「絶対パス名」（バックアップ元のディレクトリー）。
 			String _backupTarget =  ResourceBundleManager.APPLICATION_PATH + File.separator + MailSendControlFile.MIAL_SEND_CONTROL_CARD_FOLDER;
             // バックアップ先のディレクトリー。
-			String _backupTo = ResourceBundleManager.APPLICATION_PATH  + File.separator +"Backup" +
+			String _backupTo = ResourceBundleManager.APPLICATION_PATH  + File.separator + "Backup" +
 														File.separator +MailSendControlFile.MIAL_SEND_CONTROL_CARD_FOLDER + File.separator + MailUtil2.getSystemDate( "yyyyMMdd_HHmmss" );
 
 			log.info( "09I({})：メール送信処理を開始します 。", MailSendControlFile.MIAL_SEND_CONTROL_CARD_FOLDER );
@@ -138,7 +138,7 @@ public class MailSend2 {
             }
 		}
 
-        log.info( "99I：「メール送信処理」は、正常に終了しました。" );
+        log.info( "99I({})：「メール送信処理」は、正常に終了しました。", MailSendControlFile.MIAL_SEND_CONTROL_CARD_FOLDER );
         System.exit( 0 );
 	}
 }

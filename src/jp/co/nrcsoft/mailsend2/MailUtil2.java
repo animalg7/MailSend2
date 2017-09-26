@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -90,8 +91,7 @@ public class MailUtil2 {
 			String _attachedFiles,
 			boolean _authenticationMode,
 			boolean _processMode,
-			long _attachmentFileSize
-			) {
+			long _attachmentFileSize ) {
 
 		/* 戻り値 */
 		Boolean retValue = true;
@@ -146,6 +146,9 @@ public class MailUtil2 {
                 msg.setSentDate( new Date() );
                 // 件名
                	msg.setSubject( _subjectStr , _subjectEncording );
+                // ファイルの種類
+               	msg.setHeader( "Content-Type", "text/plain" );
+
                	// 添付ファイル処理
             	String _attachedFullPathFiles = MailUtil2.getAttachedFileNamesWithFullPath( _pathfolder, _attachedFiles );
             	// 添付ファイル有無の確認
@@ -156,6 +159,7 @@ public class MailUtil2 {
                     Multipart mp = new MimeMultipart();
                     // メールの本文
                     mbp1.setText( setNewlineCharacter( _msgStr ), _textEncording );
+                    mp.addBodyPart( mbp1 );
 
                     // 添付ファイルサイズの総合計ファイルサイズを確認します。
                     String[] _attachedFileNames = MailUtil2.getAttachedFileNames( _attachedFullPathFiles );
@@ -172,10 +176,10 @@ public class MailUtil2 {
                         mbps = new MimeBodyPart();
                         FileDataSource fds = new FileDataSource( _attachFile2 );
                         mbps.setDataHandler( new DataHandler( fds ) );
+                        MailUtil2.setContectType( _attachFile2, mbps );
                         mbps.setFileName( MimeUtility.encodeWord( fds.getName() ) );
                         mp.addBodyPart( mbps );
                     }
-                    mp.addBodyPart( mbp1 );
                     msg.setContent( mp );
                 }
                 else {
@@ -272,7 +276,7 @@ public class MailUtil2 {
       /**
        * 引数の添付ファイル文字列の物理オブジェクト（添付ファイル）が存在する
        * かしないかの確認をして、存在しない場合は、本処理を中止します。
-       * 添付複数あった場合、一つのファイルでも存在しない場合は、本処理を中止します。
+       * 又、添付ファイルが複数あった場合、その内の一つでもファイルが存在しない場合は、本処理を中止します。
        * @param	_str		String		カンマ区切りの添付ファイル文字列
   	   * @return  	_return	boolean		true：全ファイル存在する、false：何れかのファイルが存在しない。
        */
@@ -595,8 +599,8 @@ public class MailUtil2 {
      }
 
       /**
-       * 当該ファイルが存在するかの確認をします。
-       * @param	_fileName			String		ファイル名をドライブレターふを含めて指定する。	( 例; C:/sample/sample.txt )
+       * 引数の当該ファイルが存在するかの確認をします。
+       * @param	_fileName			String		ファイル名をドライブレターを含めて指定する。	( 例： C:/sample/sample.txt )
   	   * @return  	_returnCode		boolean		true：存在する、  false：存在しない。
        */
       public static boolean  isExists( String _fileName ) {
@@ -627,7 +631,54 @@ public class MailUtil2 {
     	  }
 
           return _returnCode;
-     }
+      }
+
+      /**
+       * 引数１のファイルの拡張子に対応してContextTypeをMimeBodyPartへ設定します。
+       * @param	_fileName		String				ファイル名をドライブレターふを含めて指定する。	( 例; C:/sample/sample.txt )
+       * @param	_bodyPart		MimeBodyPart	メールのBodyPart。
+       * @throws MessagingException
+       */
+      public static void  setContectType( String _fileName, MimeBodyPart _bodyPart ) throws MessagingException {
+
+    	  File file = new File( _fileName );
+    	  String extension = file.getPath().substring( file.getPath().length() - 4 );
+
+    	  // CSVファイル
+    	  if ( extension.equalsIgnoreCase( ".csv" ) ) {
+    		  _bodyPart.setHeader( "Content-Type", "text/csv" );
+    	  } // HTMファイル
+    	  else if ( extension.equalsIgnoreCase( ".htm" ) )  {
+    		  _bodyPart.setHeader( "Content-Type", "text/html" );
+    	  } // HTMLファイル
+    	  else if ( extension.equalsIgnoreCase( ".html" ) )  {
+    		  _bodyPart.setHeader( "Content-Type", "text/html" );
+    	  } // MS Excel95~2003ファイル
+    	  else if ( extension.equalsIgnoreCase( ".xls" ) )  {
+    		  _bodyPart.setHeader( "Content-Type", "application/vnd.ms-excel" );
+    	  } // MS Excel2008以降ファイル
+    	  else if ( extension.equalsIgnoreCase( ".xlsx" ) )  {
+    		  _bodyPart.setHeader( "Content-Type", "application/vnd.ms-excel" );
+    	  } // PDFファイル
+    	  else if ( extension.equalsIgnoreCase( ".pdf" ) )  {
+    		  _bodyPart.setHeader( "Content-Type", "application/pdf" );
+    	  } // MS PowerPoint95~2003ファイル
+    	  else if ( extension.equalsIgnoreCase( ".ppt" ) )  {
+    		  _bodyPart.setHeader( "Content-Type", "application/vnd.ms-powerpoint" );
+    	  } // MS PowerPoint2008以降ファイル
+    	  else if ( extension.equalsIgnoreCase( ".pptx" ) )  {
+    		  _bodyPart.setHeader( "Content-Type", "application/vnd.ms-powerpoint" );
+    	  } // MS Wordファイル
+    	  else if ( extension.equalsIgnoreCase( ".doc" ) )  {
+    		  _bodyPart.setHeader( "Content-Type", "application/msword" );
+    	  } // MS Wordファイル
+    	  else if ( extension.equalsIgnoreCase( ".docx" ) )  {
+    		  _bodyPart.setHeader( "Content-Type", "application/msword" );
+    	  }
+    	  else { // その他は、テキストファイルとして設定。
+    		  _bodyPart.setHeader( "Content-Type", "text/plain" );
+          }
+      }
 
       /**
        * アプリケーションフォルダー名を設定します。
