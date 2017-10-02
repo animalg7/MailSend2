@@ -641,38 +641,39 @@ public class MailUtil2 {
        */
       public static void  setContectType( String _fileName, MimeBodyPart _bodyPart ) throws MessagingException {
 
-    	  File file = new File( _fileName );
-    	  String extension = file.getPath().substring( file.getPath().length() - 4 );
+    	  String fullPathFileName =  new File( _fileName ).getPath();
+    	  String extension1 = fullPathFileName.substring( fullPathFileName.length() - 4 );
+    	  String extension2 = fullPathFileName.substring( fullPathFileName.length() - 5 );
 
     	  // CSVファイル
-    	  if ( extension.equalsIgnoreCase( ".csv" ) ) {
+    	  if ( extension1.equalsIgnoreCase( ".csv" ) ) {
     		  _bodyPart.setHeader( "Content-Type", "text/csv" );
     	  } // HTMファイル
-    	  else if ( extension.equalsIgnoreCase( ".htm" ) )  {
+    	  else if ( extension1.equalsIgnoreCase( ".htm" ) )  {
     		  _bodyPart.setHeader( "Content-Type", "text/html" );
     	  } // HTMLファイル
-    	  else if ( extension.equalsIgnoreCase( ".html" ) )  {
+    	  else if ( extension2.equalsIgnoreCase( ".html" ) )  {
     		  _bodyPart.setHeader( "Content-Type", "text/html" );
     	  } // MS Excel95~2003ファイル
-    	  else if ( extension.equalsIgnoreCase( ".xls" ) )  {
+    	  else if ( extension1.equalsIgnoreCase( ".xls" ) )  {
     		  _bodyPart.setHeader( "Content-Type", "application/vnd.ms-excel" );
     	  } // MS Excel2008以降ファイル
-    	  else if ( extension.equalsIgnoreCase( ".xlsx" ) )  {
+    	  else if ( extension2.equalsIgnoreCase( ".xlsx" ) )  {
     		  _bodyPart.setHeader( "Content-Type", "application/vnd.ms-excel" );
     	  } // PDFファイル
-    	  else if ( extension.equalsIgnoreCase( ".pdf" ) )  {
+    	  else if ( extension1.equalsIgnoreCase( ".pdf" ) )  {
     		  _bodyPart.setHeader( "Content-Type", "application/pdf" );
     	  } // MS PowerPoint95~2003ファイル
-    	  else if ( extension.equalsIgnoreCase( ".ppt" ) )  {
+    	  else if ( extension1.equalsIgnoreCase( ".ppt" ) )  {
     		  _bodyPart.setHeader( "Content-Type", "application/vnd.ms-powerpoint" );
     	  } // MS PowerPoint2008以降ファイル
-    	  else if ( extension.equalsIgnoreCase( ".pptx" ) )  {
+    	  else if ( extension2.equalsIgnoreCase( ".pptx" ) )  {
     		  _bodyPart.setHeader( "Content-Type", "application/vnd.ms-powerpoint" );
     	  } // MS Wordファイル
-    	  else if ( extension.equalsIgnoreCase( ".doc" ) )  {
+    	  else if ( extension1.equalsIgnoreCase( ".doc" ) )  {
     		  _bodyPart.setHeader( "Content-Type", "application/msword" );
     	  } // MS Wordファイル
-    	  else if ( extension.equalsIgnoreCase( ".docx" ) )  {
+    	  else if ( extension2.equalsIgnoreCase( ".docx" ) )  {
     		  _bodyPart.setHeader( "Content-Type", "application/msword" );
     	  }
     	  else { // その他は、テキストファイルとして設定。
