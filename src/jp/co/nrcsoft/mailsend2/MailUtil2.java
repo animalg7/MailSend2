@@ -432,11 +432,11 @@ public class MailUtil2 {
 							}
 						} else if ( keyWord.equalsIgnoreCase( "BDY=" ) ) {
 							if ( ( bdyBuf.toString() == null ) || ( bdyBuf.toString().equals( "" ) ) ) {
-								bdyBuf.append( mailSendControllCard.substring( 4 ).trim() );
+								bdyBuf.append( mailSendControllCard.substring( 4 ) );
 							}
 							else {
 								bdyBuf.append( System.getProperty( "line.separator" ) );
-								bdyBuf.append( mailSendControllCard.substring( 4 ).trim() );
+								bdyBuf.append( mailSendControllCard.substring( 4 ) );
 							}
 						} else if ( keyWord.equalsIgnoreCase( "FLD=" ) ) {
 							// 「メール送信制御カード」の送信先サーバーの「絶対パス名」は、１行必須の為、２行目以降は存在していても、無視（スキップ）する。
