@@ -139,7 +139,7 @@ public class MailUtil2 {
                 	msg.setRecipients( Message.RecipientType.CC, _ccAddress );
                 }
     			// 送信先（写し（BCC））
-                if ( _ccAddress != null ) {
+                if ( _bccAddress != null ) {
                 	msg.setRecipients( Message.RecipientType.BCC, _bccAddress );
                 }
     			// メール送信日時
