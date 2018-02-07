@@ -169,7 +169,7 @@ public class MailUtil2 {
                     }
                     if ( _attachmentFileSize < _totalFileSize ) {
                 		  log.error( MarkerManager.getMarker( "ERROR" ),
-                  				  "E51({})：添付ファイルの「総合計ファイルサイズ（{}）」が、「閾値（{}）」を超過している為、処理を中止しました。", aplFolder, _totalFileSize, _attachmentFileSize );
+                  				  "51E({})：添付ファイルの「総合計ファイルサイズ（{}）」が、「閾値（{}）」を超過している為、処理を中止しました。", aplFolder, _totalFileSize, _attachmentFileSize );
                           System.exit( 16 ); // 処理中止！！！
                     }
                     for ( String _attachFile2 : _attachedFileNames ) {
@@ -194,7 +194,7 @@ public class MailUtil2 {
             }
             else {
       		  log.error( MarkerManager.getMarker( "ERROR" ),
-      				  "E52({})：「宛先アドレス（TO）」カードが一つもありませんでしたので、処理を中止しました。", aplFolder );
+      				  "52E({})：「宛先アドレス（TO）」カードが一つもありませんでしたので、処理を中止しました。", aplFolder );
             	retValue = false;
             }
 		} catch ( Exception e ) {

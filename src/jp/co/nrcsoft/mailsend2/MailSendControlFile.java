@@ -74,7 +74,7 @@ public class MailSendControlFile {
             if ( ( MIAL_SEND_CONTROL_CARD_SUBJECT == null ) ||
             		( MIAL_SEND_CONTROL_CARD_SUBJECT.equals( "" ) ) ) {
             	log.error( MarkerManager.getMarker( "ERROR" ),
-            			"E02({})：「メール送信制御カード」の「件名（SBJ=）」カードがありませんでしたので、処理を中止しました。", MIAL_SEND_CONTROL_CARD_FOLDER );
+            			"02E({})：「メール送信制御カード」の「件名（SBJ=）」カードがありませんでしたので、処理を中止しました。", MIAL_SEND_CONTROL_CARD_FOLDER );
             	System.exit( 16 ); // 処理中止！！！
             }
 
